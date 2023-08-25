@@ -459,7 +459,7 @@ public class RichEditorWebView: WKWebView {
     
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {}
     
-    public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+    open func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         // Handle pre-defined editor actions
         let callbackPrefix = "re-callback://"
         if navigationAction.request.url?.absoluteString.hasPrefix(callbackPrefix) == true {
