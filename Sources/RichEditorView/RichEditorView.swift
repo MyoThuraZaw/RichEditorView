@@ -625,7 +625,7 @@ public class RichEditorWebView: WKWebView {
     // MARK: - Responder Handling
     /// Called by the UITapGestureRecognizer when the user taps the view
     /// If we are not already the first responder, focus the editor
-    @objc private func viewWasTapped() {
+    @objc open func viewWasTapped() {
         if !webView.isFirstResponder {
             let point = tapRecognizer.location(in: webView)
             focus(at: point)
