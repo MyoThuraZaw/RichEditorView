@@ -462,12 +462,36 @@ RE.addColumnToLeft = function() {
     }
 };
 
+// RE.deleteColumnFromTable = function() {
+//     // Deletes the current cursor's column
+//     var elements = document.querySelectorAll(":hover");
+//     let columnIndex = elements[elements.length - 1].cellIndex;
+//     let row = elements[elements.length - 2];
+//     row.deleteCell(columnIndex);
+// };
+
 RE.deleteColumnFromTable = function() {
-    // Deletes the current cursor's column
+    // Deletes the whole column at the current cursor's position
     var elements = document.querySelectorAll(":hover");
     let columnIndex = elements[elements.length - 1].cellIndex;
-    let row = elements[elements.length - 2];
-    row.deleteCell(columnIndex);
+    let table = getNearestTableAncestor(elements[elements.length - 1]);
+
+    for (var i = 0; i < table.rows.length; i++) {
+        let row = table.rows[i];
+        if (row.cells.length > columnIndex) {
+            row.deleteCell(columnIndex);
+        }
+    }
+};
+
+
+RE.deleteTable = function() {
+    var elements = document.querySelectorAll(":hover");
+    var table = getNearestTableAncestor(elements[elements.length - 1]);
+    
+    if (table) {
+        table.parentNode.removeChild(table);
+    }    
 };
 
 /**

@@ -430,6 +430,10 @@ public class RichEditorWebView: WKWebView {
     public func deleteColumnFromTable() {
         runJS("RE.deleteColumnFromTable()")
     }
+    
+    public func deleteTable() {
+        runJS("RE.deleteTable()")
+    }
 
     /// Runs some JavaScript on the WKWebView and returns the result
     /// If there is no result, returns an empty string
