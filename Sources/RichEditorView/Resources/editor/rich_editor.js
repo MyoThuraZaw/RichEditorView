@@ -394,17 +394,12 @@ RE.addRowToTable = function() {
     var elements = document.querySelectorAll(":hover");
     let rowIndex = elements[elements.length - 2].rowIndex;
     let table = getNearestTableAncestor(elements[elements.length - 1]);
-    let columnCount = table.rows[0].cells.length
+    let columnCount = table.rows[0].cells.length;
     var row = table.insertRow(rowIndex + 1);
 
     for (var i = 0; i < columnCount; i++) {
         row.insertCell(i);
     }
-    // var cell1 = row.insertCell(0);
-    // var cell2 = row.insertCell(1);
-
-    // cell1.innerHTML = "";
-    // cell2.innerHTML = "";
 };
 
 RE.deleteRowFromTable = function() {
@@ -419,8 +414,15 @@ RE.addColumnToTable = function() {
     // Add column to the right of current cursor's
     var elements = document.querySelectorAll(":hover");
     let columnIndex = elements[elements.length - 1].cellIndex;
-    let row = elements[elements.length - 2];
-    row.insertCell(columnIndex + 1);
+    // let row = elements[elements.length - 2];
+    let table = getNearestTableAncestor(elements[elements.length - 1]);
+    let rowCount = table.rows.length;
+    
+    for (var i = 0; i < rowCount; i++) {
+        let row = table.rows[i];
+        row.insertCell(columnIndex + 1);
+    }
+    
 }
 
 RE.deleteColumnFromTable = function() {
