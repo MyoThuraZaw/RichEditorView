@@ -435,6 +435,12 @@ public class RichEditorWebView: WKWebView {
         runJS("RE.deleteTable()")
     }
 
+    public func isSelectionAnchor(handler: @escaping (Bool) -> Void) {
+        runJS("RE.isSelectionAnchorTag") { r in
+            handler(r == "true")
+        }
+    }
+
     /// Runs some JavaScript on the WKWebView and returns the result
     /// If there is no result, returns an empty string
     /// - parameter js: The JavaScript string to be run

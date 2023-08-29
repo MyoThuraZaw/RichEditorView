@@ -21,6 +21,7 @@ RE.editor = document.getElementById('editor');
 
 // Not universally supported, but seems to work in iOS 7 and 8
 document.addEventListener("selectionchange", function() {
+    console.log("selectionchange");
     RE.backuprange();
 });
 
@@ -574,6 +575,20 @@ RE.getRelativeCaretYPosition = function() {
         }
     }
     return y;
+};
+
+RE.isSelectionAnchorTag = function() {
+    var selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+        var range = selection.getRangeAt(0);
+        var selectedNode = range.commonAncestorContainer;
+
+        // Check if the selected node is an anchor tag
+        if (selectedNode.tagName && selectedNode.tagName.toLowerCase() === 'a') {
+            return true;
+        }
+    }
+    return false;    
 };
 
 window.onload = function() {
