@@ -22,6 +22,11 @@ RE.editor = document.getElementById('editor');
 // Not universally supported, but seems to work in iOS 7 and 8
 document.addEventListener("selectionchange", function() {
     console.log("selectionchange");
+    if (isSelectionAnchorTag) {
+        console.log("selection is an anchor tag");
+    } else {
+        console.log("selection is not an anchor tag"); 
+    }
     RE.backuprange();
 });
 
