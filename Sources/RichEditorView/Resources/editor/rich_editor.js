@@ -393,7 +393,7 @@ RE.addRowToTable = function() {
     // Add row below current cursor's
     var elements = document.querySelectorAll(":hover");
     let rowIndex = elements[elements.length - 2].rowIndex;
-    console.log("selected row: \(rowIndex)");
+    console.log(`selected row: ${rowIndex}`);
     let table = getNearestTableAncestor(elements[elements.length - 1]);
     table.insertRow(rowIndex + 1);
 };
