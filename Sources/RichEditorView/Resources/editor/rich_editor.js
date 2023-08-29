@@ -393,13 +393,18 @@ RE.addRowToTable = function() {
     // Add row below current cursor's
     var elements = document.querySelectorAll(":hover");
     let rowIndex = elements[elements.length - 2].rowIndex;
-    console.log(`selected row: ${rowIndex}`);
     let table = getNearestTableAncestor(elements[elements.length - 1]);
+    let columnCount = table.rows[0].cells.length
     var row = table.insertRow(rowIndex + 1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    cell1.innerHTML = "a";
-    cell2.innerHTML = "b";
+
+    for (var i = 0; i < columnCount; i++) {
+        row.insertCell(i);
+    }
+    // var cell1 = row.insertCell(0);
+    // var cell2 = row.insertCell(1);
+
+    // cell1.innerHTML = "";
+    // cell2.innerHTML = "";
 };
 
 RE.deleteRowFromTable = function() {
