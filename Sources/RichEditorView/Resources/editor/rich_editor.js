@@ -389,8 +389,7 @@ RE.isCursorInTable = function() {
     return document.querySelectorAll(":hover")[elements.length - 1] instanceof HTMLTableCellElement  
 };
 
-RE.addRowToTable = function() {
-    // Add row below current cursor's
+RE.addRowBelow = function() {
     var elements = document.querySelectorAll(":hover");
     let rowIndex = elements[elements.length - 2].rowIndex;
     let table = getNearestTableAncestor(elements[elements.length - 1]);
@@ -402,6 +401,26 @@ RE.addRowToTable = function() {
     }
 };
 
+RE.addRowAbove = function() {
+    var elements = document.querySelectorAll(":hover");
+    let rowIndex = elements[elements.length - 2].rowIndex;
+    let table = getNearestTableAncestor(elements[elements.length - 1]);
+    let columnCount = table.rows[0].cells.length;
+
+    // Handle case when there's only one row
+    if (rowIndex === 0) {
+        var row = table.insertRow(0);
+        for (var i = 0; i < columnCount; i++) {
+            row.insertCell(i);
+        }
+    } else {
+        var row = table.insertRow(rowIndex);
+        for (var i = 0; i < columnCount; i++) {
+            row.insertCell(i);
+        }
+    }
+};
+
 RE.deleteRowFromTable = function() {
     // Deletes the current cursor's row
     var elements = document.querySelectorAll(":hover");
@@ -410,11 +429,10 @@ RE.deleteRowFromTable = function() {
     table.deleteRow(rowIndex);
 };
 
-RE.addColumnToTable = function() {
+RE.addColumnRight = function() {
     // Add column to the right of current cursor's
     var elements = document.querySelectorAll(":hover");
     let columnIndex = elements[elements.length - 1].cellIndex;
-    // let row = elements[elements.length - 2];
     let table = getNearestTableAncestor(elements[elements.length - 1]);
     let rowCount = table.rows.length;
     
@@ -422,8 +440,27 @@ RE.addColumnToTable = function() {
         let row = table.rows[i];
         row.insertCell(columnIndex + 1);
     }
-    
 }
+
+RE.addColumnToLeft = function() {
+    // Add column to the left of the current cursor's
+    var elements = document.querySelectorAll(":hover");
+    let columnIndex = elements[elements.length - 1].cellIndex;
+    let table = getNearestTableAncestor(elements[elements.length - 1]); // Assuming you have the getNearestTableAncestor function defined
+
+    let rowCount = table.rows.length;
+
+    for (var i = 0; i < rowCount; i++) {
+        let row = table.rows[i];
+        if (columnIndex === 0) {
+            // If columnIndex is 0, insert at the beginning
+            let newCell = row.insertCell(0);
+        } else {
+            // Otherwise, insert at the specified index
+            let newCell = row.insertCell(columnIndex);
+        }
+    }
+};
 
 RE.deleteColumnFromTable = function() {
     // Deletes the current cursor's column
