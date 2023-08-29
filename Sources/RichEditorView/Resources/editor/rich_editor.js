@@ -399,6 +399,7 @@ RE.addRowBelow = function() {
     for (var i = 0; i < columnCount; i++) {
         row.insertCell(i);
     }
+    RE.callback("input");
 };
 
 RE.addRowAbove = function() {
@@ -419,6 +420,7 @@ RE.addRowAbove = function() {
             row.insertCell(i);
         }
     }
+    RE.callback("input");
 };
 
 RE.deleteRowFromTable = function() {
@@ -427,6 +429,7 @@ RE.deleteRowFromTable = function() {
     let rowIndex = elements[elements.length - 2].rowIndex;
     let table = getNearestTableAncestor(elements[elements.length - 1]);
     table.deleteRow(rowIndex);
+    RE.callback("input");
 };
 
 RE.addColumnRight = function() {
@@ -440,6 +443,7 @@ RE.addColumnRight = function() {
         let row = table.rows[i];
         row.insertCell(columnIndex + 1);
     }
+    RE.callback("input");
 }
 
 RE.addColumnToLeft = function() {
@@ -460,15 +464,8 @@ RE.addColumnToLeft = function() {
             let newCell = row.insertCell(columnIndex);
         }
     }
+    RE.callback("input");
 };
-
-// RE.deleteColumnFromTable = function() {
-//     // Deletes the current cursor's column
-//     var elements = document.querySelectorAll(":hover");
-//     let columnIndex = elements[elements.length - 1].cellIndex;
-//     let row = elements[elements.length - 2];
-//     row.deleteCell(columnIndex);
-// };
 
 RE.deleteColumnFromTable = function() {
     // Deletes the whole column at the current cursor's position
@@ -482,6 +479,7 @@ RE.deleteColumnFromTable = function() {
             row.deleteCell(columnIndex);
         }
     }
+    RE.callback("input");
 };
 
 
@@ -491,7 +489,8 @@ RE.deleteTable = function() {
     
     if (table) {
         table.parentNode.removeChild(table);
-    }    
+    }   
+    RE.callback("input"); 
 };
 
 /**
