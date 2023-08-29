@@ -407,16 +407,24 @@ public class RichEditorWebView: WKWebView {
         }
     }
 
-    public func addRowToTable() {
-        runJS("RE.addRowToTable()")
+    public func addRowBelow() {
+        runJS("RE.addRowBelow()")
     }
 
-    public func removeRowFromTable() {
+    public func addRowAbove() {
+        runJS("RE.addRowAbove()")
+    }
+
+    public func deleteRowFromTable() {
         runJS("RE.deleteRowFromTable()")
     }
 
-    public func addColumnToTable() {
-        runJS("RE.addColumnToTable()")
+    public func addColumnLeft() {
+        runJS("RE.addColumnToLeft()")
+    }
+
+    public func addColumnRight() {
+        runJS("RE.addColumnRight()")
     }
 
     public func deleteColumnFromTable() {
