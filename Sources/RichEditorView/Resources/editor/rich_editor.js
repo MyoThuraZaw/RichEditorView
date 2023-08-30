@@ -28,7 +28,7 @@ document.addEventListener("selectionchange", function() {
         console.log("selection is an anchor tag");
         console.log(`href: ${href}`);
         console.log(`text: ${text}`);
-        RE.callback(`action/insideAnchorTag{"href": "${href}", "text": "${text}}`); 
+        RE.callback(`action/insideAnchorTag{"href": "${href}", "text": "${text}"}`); 
     } else {
         console.log("selection is not an anchor tag"); 
     }
