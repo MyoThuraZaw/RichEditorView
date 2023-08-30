@@ -616,7 +616,7 @@ RE.isSelectionAnchorTag = function() {
     if (window.getSelection().toString !== '') {
         var sel = window.getSelection();
         if (sel.rangeCount) {
-            var range = self.getRangeAt(0);
+            var range = sel.getRangeAt(0);
             if (range) {
                 const startParentNode = selection.startContainer.parentNode;
                 const endParentNode = selection.endContainer.parentNode; 
