@@ -22,9 +22,9 @@ RE.editor = document.getElementById('editor');
 // Not universally supported, but seems to work in iOS 7 and 8
 document.addEventListener("selectionchange", function() {
     console.log("selectionchange");
-    // if (RE.isSelectionAnchorTag()) {
-    if (RE.isLink()) {
+    if (RE.isSelectionAnchorTag()) {
         console.log("selection is an anchor tag");
+        RE.callback("action/insideAnchorTag"); 
     } else {
         console.log("selection is not an anchor tag"); 
     }
@@ -584,29 +584,6 @@ RE.getRelativeCaretYPosition = function() {
 };
 
 RE.isSelectionAnchorTag = function() {
-    var selection = window.getSelection();
-    console.log(`selection: ${selection}`);
-    if (selection.rangeCount > 0) {
-        console.log(`selection.rangeCount: ${selection.rangeCount}`);
-        var range = selection.getRangeAt(0);
-        console.log(`range: ${range}`);
-        var selectedNode = range.commonAncestorContainer;
-        console.log(`selectedNode: ${selectedNode}`);
-        
-        console.log(`selectedNode.tagName: ${selectedNode.tagName}`);
-        console.log(`selectedNode.tagName: ${selectedNode.tagName.toLowerCase()}`);
-
-        // Check if the selected node is an anchor tag
-        if (selectedNode.tagName && selectedNode.tagName.toLowerCase() === 'a') {
-            return true;
-        }
-        console.log('selectedNode.tagName is null or is not equal to a');
-    }
-    console.log('selection.rangeCount is less than 0');
-    return false;    
-};
-
-RE.isLink = function() {
     if (window.getSelection().toString !== '') {
         const selection = window.getSelection().getRangeAt(0)
         if (selection) {
