@@ -618,8 +618,8 @@ RE.isSelectionAnchorTag = function() {
         if (sel.rangeCount) {
             var range = sel.getRangeAt(0);
             if (range) {
-                const startParentNode = selection.startContainer.parentNode;
-                const endParentNode = selection.endContainer.parentNode; 
+                const startParentNode = range.startContainer.parentNode;
+                const endParentNode = range.endContainer.parentNode; 
                 if (startParentNode.tagName === 'A' || endParentNode.tagName === 'A') {
                     const href = startParentNode.getAttribute('href');
                     const text = startParentNode.textContent;
