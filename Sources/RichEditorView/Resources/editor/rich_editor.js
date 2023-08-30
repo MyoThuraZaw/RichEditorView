@@ -22,7 +22,8 @@ RE.editor = document.getElementById('editor');
 // Not universally supported, but seems to work in iOS 7 and 8
 document.addEventListener("selectionchange", function() {
     console.log("selectionchange");
-    if (RE.isSelectionAnchorTag()) {
+    // if (RE.isSelectionAnchorTag()) {
+    if (RE.isLink()) {
         console.log("selection is an anchor tag");
     } else {
         console.log("selection is not an anchor tag"); 
@@ -604,6 +605,23 @@ RE.isSelectionAnchorTag = function() {
     console.log('selection.rangeCount is less than 0');
     return false;    
 };
+
+RE.isLink = function() {
+    if (window.getSelection().toString !== '') {
+        const selection = window.getSelection().getRangeAt(0)
+        if (selection) {
+            console.log(`startContainer tagName ${selection.startContainer.parentNode.tagName}`);
+            console.log(`endContainer tagName ${selection.endContainer.parentNode.tagName}`);
+            if (selection.startContainer.parentNode.tagName === 'A' || selection.endContainer.parentNode.tagName === 'A') {
+                return [true, selection]
+            } else { 
+                return false 
+            }
+        } else { 
+            return false 
+        }
+    }
+}
 
 window.onload = function() {
     RE.callback("ready");
