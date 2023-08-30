@@ -28,7 +28,7 @@ document.addEventListener("selectionchange", function() {
         console.log("selection is an anchor tag");
         console.log(`href: ${href}`);
         console.log(`text: ${text}`);
-        RE.callback("action/insideAnchorTag"); 
+        RE.callback(`action/insideAnchorTag{"href": "${href}", "text": "${text}}`); 
     } else {
         console.log("selection is not an anchor tag"); 
     }
@@ -306,6 +306,24 @@ RE.insertLink = function(url, text, title) {
         sel.addRange(range);
     }
     RE.callback("input");
+};
+
+RE.updateLink = function(url, newText, newTitle) {
+    RE.restorerange();
+    var sel = document.getSelection();
+    
+    if (sel.rangeCount) {
+        var anchorElement = sel.anchorNode.parentElement;
+        
+        // Check if the selected element is an anchor (<a>) element
+        if (anchorElement && anchorElement.tagName === "A") {
+            anchorElement.setAttribute("href", url);
+            anchorElement.setAttribute("title", newTitle);
+            anchorElement.textContent = newText;
+        }
+        
+        RE.callback("input");
+    }
 };
 
 RE.prepareInsert = function() {

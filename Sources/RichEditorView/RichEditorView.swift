@@ -377,6 +377,10 @@ public class RichEditorWebView: WKWebView {
         runJS("RE.prepareInsert()")
         runJS("RE.insertLink('\(href.escaped)', '\(text.escaped)', '\(title.escaped)')")
     }
+
+    public func updateLink(href: String, text: String, title: String) {
+        runJS("RE.updateLink('\(href.escaped)', '\(text.escaped)', '\(title.escaped)')")
+    }
     
     public func focus() {
         runJS("RE.focus()")
