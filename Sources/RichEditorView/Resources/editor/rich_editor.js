@@ -22,8 +22,12 @@ RE.editor = document.getElementById('editor');
 // Not universally supported, but seems to work in iOS 7 and 8
 document.addEventListener("selectionchange", function() {
     console.log("selectionchange");
-    if (RE.isSelectionAnchorTag()) {
+    const result = RE.isSelectionAnchorTag();
+    const [isAnchor, href, text] = result;
+    if (isAnchor) {
         console.log("selection is an anchor tag");
+        console.log("href: ${href}");
+        console.log("text: ${text}");
         RE.callback("action/insideAnchorTag"); 
     } else {
         console.log("selection is not an anchor tag"); 
@@ -587,10 +591,12 @@ RE.isSelectionAnchorTag = function() {
     if (window.getSelection().toString !== '') {
         const selection = window.getSelection().getRangeAt(0)
         if (selection) {
-            console.log(`startContainer tagName ${selection.startContainer.parentNode.tagName}`);
-            console.log(`endContainer tagName ${selection.endContainer.parentNode.tagName}`);
-            if (selection.startContainer.parentNode.tagName === 'A' || selection.endContainer.parentNode.tagName === 'A') {
-                return [true, selection]
+            const startParentNode = selection.startContainer.parentNode;
+            const endParentNode = selection.endContainer.parentNode; 
+            if (startParentNode.tagName === 'A' || endParentNode.tagName === 'A') {
+                const href = startParentNode.getAttribute('href');
+                const text = startParentNode.textContent;
+                return [true, href, text];
             } else { 
                 return false 
             }
