@@ -30,7 +30,8 @@ document.addEventListener("selectionchange", function() {
         console.log(`text: ${text}`);
         RE.callback(`action/insideAnchorTag{"href": "${href}", "text": "${text}"}`); 
     } else {
-        console.log("selection is not an anchor tag"); 
+        console.log("selection is not an anchor tag");
+        RE.callback(`action/outsideAnchorTag`);
     }
     RE.backuprange();
 });
