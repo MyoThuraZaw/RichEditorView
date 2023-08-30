@@ -23,12 +23,18 @@ RE.editor = document.getElementById('editor');
 document.addEventListener("selectionchange", function() {
     console.log("selectionchange");
     const result = RE.isSelectionAnchorTag();
-    const [isAnchor, href, text] = result;
-    if (result && isAnchor) {
-        console.log("selection is an anchor tag");
-        console.log(`href: ${href}`);
-        console.log(`text: ${text}`);
-        RE.callback(`action/insideAnchorTag{"href": "${href}", "text": "${text}"}`); 
+    
+    if (result) {
+        const [isAnchor, href, text] = result;
+        if (isAnchor) {
+            console.log("selection is an anchor tag");
+            console.log(`href: ${href}`);
+            console.log(`text: ${text}`);
+            RE.callback(`action/insideAnchorTag{"href": "${href}", "text": "${text}"}`); 
+        } else {
+            console.log("selection is not an anchor tag");
+            RE.callback(`action/outsideAnchorTag`); 
+        }        
     } else {
         console.log("selection is not an anchor tag");
         RE.callback(`action/outsideAnchorTag`);
@@ -608,21 +614,21 @@ RE.getRelativeCaretYPosition = function() {
 
 RE.isSelectionAnchorTag = function() {
     if (window.getSelection().toString !== '') {
-        const selection = window.getSelection().getRangeAt(0)
-        if (selection) {
-            const startParentNode = selection.startContainer.parentNode;
-            const endParentNode = selection.endContainer.parentNode; 
-            if (startParentNode.tagName === 'A' || endParentNode.tagName === 'A') {
-                const href = startParentNode.getAttribute('href');
-                const text = startParentNode.textContent;
-                return [true, href, text];
-            } else { 
-                return false 
+        var sel = window.getSelection();
+        if (sel.rangeCount) {
+            var range = self.getRangeAt(0);
+            if (range) {
+                const startParentNode = selection.startContainer.parentNode;
+                const endParentNode = selection.endContainer.parentNode; 
+                if (startParentNode.tagName === 'A' || endParentNode.tagName === 'A') {
+                    const href = startParentNode.getAttribute('href');
+                    const text = startParentNode.textContent;
+                    return [true, href, text];
+                }
             }
-        } else { 
-            return false 
-        }
+        }        
     }
+    return false;
 }
 
 window.onload = function() {
