@@ -584,15 +584,24 @@ RE.getRelativeCaretYPosition = function() {
 
 RE.isSelectionAnchorTag = function() {
     var selection = window.getSelection();
+    console.log(`selection: ${selection}`);
     if (selection.rangeCount > 0) {
+        console.log(`selection.rangeCount: ${selection.rangeCount}`);
         var range = selection.getRangeAt(0);
+        console.log(`range: ${range}`);
         var selectedNode = range.commonAncestorContainer;
+        console.log(`selectedNode: ${selectedNode}`);
+        
+        console.log(`selectedNode.tagName: ${selectedNode.tagName}`);
+        console.log(`selectedNode.tagName: ${selectedNode.tagName.toLowerCase()}`);
 
         // Check if the selected node is an anchor tag
         if (selectedNode.tagName && selectedNode.tagName.toLowerCase() === 'a') {
             return true;
         }
+        console.log('selectedNode.tagName is null or is not equal to a');
     }
+    console.log('selection.rangeCount is less than 0');
     return false;    
 };
 
