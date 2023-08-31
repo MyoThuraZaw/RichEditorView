@@ -34,6 +34,9 @@ import WebKit
     /// Called when custom actions are called by callbacks in the JS
     /// By default, this method is not used unless called by some custom JS that you add
     @objc optional func richEditor(_ editor: RichEditorView, handle action: String)
+
+    /// Called when the image is tapped
+    @objc optional func richEditor(_ editor: RichEditorView, didTapImage url: String)
 }
 
 /// The value we hold in order to be able to set the line height before the JS completely loads.
