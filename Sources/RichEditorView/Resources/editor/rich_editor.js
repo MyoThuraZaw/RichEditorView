@@ -647,7 +647,6 @@ window.onload = function() {
 };
 
 RE.addImageTapEventListener = function() {
-    console.log(`images count: ${images.length}`);
     images = document.getElementsByTagName("img");
     console.log(`images count: ${images.length}`);
     for (var i = 0; i < images.length; i++) {
