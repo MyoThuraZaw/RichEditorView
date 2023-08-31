@@ -647,8 +647,9 @@ window.onload = function() {
 };
 
 RE.addImageTapEventListener = function() {
+    console.log(`images count: ${images.length}`);
     images = document.getElementsByTagName("img");
-
+    console.log(`images count: ${images.length}`);
     for (var i = 0; i < images.length; i++) {
         var image = images[i];
         
@@ -661,6 +662,7 @@ RE.addImageTapEventListener = function() {
             
             // Set the custom attribute to indicate the event listener is added
             image.setAttribute("data-event-added", "true");
+            console.log(`set image attribute`);
         }
     }
 }
