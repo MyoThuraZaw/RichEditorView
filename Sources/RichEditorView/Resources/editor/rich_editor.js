@@ -23,6 +23,23 @@ RE.editor = document.getElementById('editor');
 document.addEventListener("selectionchange", function() {
     console.log("selectionchange");
 
+    var images = document.getElementsByTagName("img");
+
+    for (var i = 0; i < images.length; i++) {
+        var image = images[i];
+        
+        // Check if the custom attribute "data-event-added" exists
+        if (!image.getAttribute("data-event-added")) {
+            image.addEventListener("touchend", function(event) {
+                event.preventDefault();
+                RE.imageTapped(event.target.src, event.target.alt);
+            });
+            
+            // Set the custom attribute to indicate the event listener is added
+            image.setAttribute("data-event-added", "true");
+        }
+    }
+
     const isSelectionAnchorTag = RE.isSelectionAnchorTag();
     
     if (isSelectionAnchorTag) {
@@ -638,16 +655,5 @@ RE.imageTapped = function(src, alt) {
 }
 
 window.onload = function() {
-
-    RE.callback("ready");
-
-    var images = document.getElementsByTagName("img");
-    console.log(`windows.onload ---> images count: ${images.length}`);
-    for (var i = 0; i < images.length; i++) {
-        images[i].addEventListener("touchend", function(event) {
-            event.preventDefault();
-            RE.imageTapped(event.target.src, event.target.alt);
-        });
-    }
-    
+    RE.callback("ready");    
 };
