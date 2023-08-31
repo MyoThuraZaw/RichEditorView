@@ -644,27 +644,51 @@ RE.isSelectionAnchorTag = function() {
     return false;
 }
 
+// RE.isSelectionImageTag = function() {
+//     if (window.getSelection().toString !== '') {
+//         var sel = window.getSelection();
+//         if (sel.rangeCount) {
+//             var range = sel.getRangeAt(0);
+//             if (range) {
+//                 const startParentNode = range.startContainer.parentNode;
+//                 const endParentNode = range.endContainer.parentNode; 
+//                 console.log(`startParentNode: ${startParentNode}`);
+//                 console.log(`tagName: ${startParentNode.tagName}`);
+//                 if (startParentNode.tagName === 'IMG' || endParentNode.tagName === 'IMG') {
+//                     const src = startParentNode.getAttribute('src');
+//                     const alt = startParentNode.getAttribute('alt');
+//                     const width = startParentNode.getAttribute('width');
+//                     return [true, src, alt, width];
+//                 }
+//             }
+//         }        
+//     }
+//     return false;
+// };
+
 RE.isSelectionImageTag = function() {
-    if (window.getSelection().toString !== '') {
-        var sel = window.getSelection();
-        if (sel.rangeCount) {
-            var range = sel.getRangeAt(0);
-            if (range) {
-                const startParentNode = range.startContainer.parentNode;
-                const endParentNode = range.endContainer.parentNode; 
-                console.log(`startParentNode: ${startParentNode}`);
-                console.log(`tagName: ${startParentNode.tagName}`);
-                if (startParentNode.tagName === 'IMG' || endParentNode.tagName === 'IMG') {
-                    const src = startParentNode.getAttribute('src');
-                    const alt = startParentNode.getAttribute('alt');
-                    const width = startParentNode.getAttribute('width');
-                    return [true, src, alt, width];
-                }
+    const selection = window.getSelection();
+    
+    console.log('selection: ' + selection);
+    if (selection.toString() !== '') {
+        const range = selection.getRangeAt(0);
+        const nodes = range.cloneContents().querySelectorAll('*');
+        
+        for (const node of nodes) {
+            if (node.tagName === 'IMG') {
+                console.log('IMG tag found');
+                const src = node.getAttribute('src');
+                const alt = node.getAttribute('alt');
+                const width = node.getAttribute('width');
+                return [true, src, alt, width];
             }
-        }        
+        }
+    } else {
+        console.log("selection not found");
     }
     return false;
 };
+
 
 // Function to add a selection listener to images
 function addImageSelectionListener(img) {
