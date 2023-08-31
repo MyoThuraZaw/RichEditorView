@@ -652,6 +652,8 @@ RE.isSelectionImageTag = function() {
             if (range) {
                 const startParentNode = range.startContainer.parentNode;
                 const endParentNode = range.endContainer.parentNode; 
+                console.log(`startParentNode: ${startParentNode}`);
+                console.log(`tagName: ${startParentNode.tagName}`);
                 if (startParentNode.tagName === 'IMG' || endParentNode.tagName === 'IMG') {
                     const src = startParentNode.getAttribute('src');
                     const alt = startParentNode.getAttribute('alt');
