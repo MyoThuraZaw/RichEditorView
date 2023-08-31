@@ -22,10 +22,22 @@ RE.editor = document.getElementById('editor');
 // Not universally supported, but seems to work in iOS 7 and 8
 document.addEventListener("selectionchange", function() {
     console.log("selectionchange");
-    const result = RE.isSelectionAnchorTag();
+
+    const isSelectionImageTag = RE.isSelectionImageTag();
+
+    if (isSelectionImageTag) {
+        const [isImage, src, alt, width] = isSelectionImageTag;
+        if (isImage) {
+            console.log("selection is an image tag");
+            RE.callback(`action/insideImageTag{"src":${src}, "alt":${alt}, "width":${width}`);
+            return;
+        }  
+    }
+
+    const isSelectionAnchorTag = RE.isSelectionAnchorTag();
     
-    if (result) {
-        const [isAnchor, href, text] = result;
+    if (isSelectionAnchorTag) {
+        const [isAnchor, href, text] = isSelectionAnchorTag;
         if (isAnchor) {
             console.log("selection is an anchor tag");
             console.log(`href: ${href}`);
@@ -631,6 +643,27 @@ RE.isSelectionAnchorTag = function() {
     }
     return false;
 }
+
+RE.isSelectionImageTag = function() {
+    if (window.getSelection().toString !== '') {
+        var sel = window.getSelection();
+        if (sel.rangeCount) {
+            var range = sel.getRangeAt(0);
+            if (range) {
+                const startParentNode = range.startContainer.parentNode;
+                const endParentNode = range.endContainer.parentNode; 
+                if (startParentNode.tagName === 'IMG' || endParentNode.tagName === 'IMG') {
+                    const src = startParentNode.getAttribute('src');
+                    const alt = startParentNode.getAttribute('alt');
+                    const width = startParentNode.getAttribute('width');
+                    return [true, src, alt, width];
+                }
+            }
+        }        
+    }
+    return false;
+};
+
 
 window.onload = function() {
     RE.callback("ready");
