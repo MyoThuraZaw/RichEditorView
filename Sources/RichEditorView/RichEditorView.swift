@@ -140,7 +140,7 @@ public class RichEditorWebView: WKWebView {
         setup()
     }
     
-    private func setup() {
+    open func setup() {
         // configure webview
         webView.frame = bounds
         webView.navigationDelegate = self
