@@ -664,7 +664,30 @@ RE.isSelectionImageTag = function() {
     return false;
 };
 
+// Function to add a selection listener to images
+function addImageSelectionListener(img) {
+    img.addEventListener('click', function(event) {
+        if (img.classList.contains('selected-image')) {
+            img.classList.remove('selected-image');
+        } else {
+            img.classList.add('selected-image');
+        }
+        event.stopPropagation();
+    });
+}
+
+// Function to check if a given element is an image and selected
+function isElementSelectedImage(element) {
+    return element.tagName === 'IMG' && element.classList.contains('selected-image');
+}
+
 
 window.onload = function() {
+    // Add selection listeners to all images on the page
+    const images = document.querySelectorAll('img');
+    images.forEach(addImageSelectionListener);
+    const selectedImages = Array.from(images).filter(isElementSelectedImage);
+    console.log('Selected images:', selectedImages);
+
     RE.callback("ready");
 };
