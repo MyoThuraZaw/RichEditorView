@@ -352,9 +352,9 @@ public class RichEditorWebView: WKWebView {
     // Offline mode determines how to handle insertImage
     var offline = true
     
-    public func insertImage(_ url: String, alt: String) {
+    public func insertImage(_ url: String, alt: String, width: Int) {
         runJS("RE.prepareInsert()")
-        runJS("RE.insertImage('\(url.escaped)', '\(alt.escaped)')")
+        runJS("RE.insertImage('\(url.escaped)', '\(alt.escaped)', '\(width)')")
     }
 
     public func insertVideo(vidURL: String, posterURL: String="", isBase64: Bool=false) {
