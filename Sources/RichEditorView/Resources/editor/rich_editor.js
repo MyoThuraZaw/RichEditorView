@@ -19,26 +19,11 @@ var RE = {};
 
 RE.editor = document.getElementById('editor');
 
+var images;
+
 // Not universally supported, but seems to work in iOS 7 and 8
 document.addEventListener("selectionchange", function() {
     console.log("selectionchange");
-
-    var images = document.getElementsByTagName("img");
-
-    for (var i = 0; i < images.length; i++) {
-        var image = images[i];
-        
-        // Check if the custom attribute "data-event-added" exists
-        if (!image.getAttribute("data-event-added")) {
-            image.addEventListener("touchend", function(event) {
-                event.preventDefault();
-                RE.imageTapped(event.target.src, event.target.alt);
-            });
-            
-            // Set the custom attribute to indicate the event listener is added
-            image.setAttribute("data-event-added", "true");
-        }
-    }
 
     const isSelectionAnchorTag = RE.isSelectionAnchorTag();
     
@@ -305,6 +290,8 @@ RE.insertImage = function(url, alt, width) {
 
     RE.insertHTML(img.outerHTML);
     RE.callback("input");
+
+    RE.addImageTapEventListener();
 };
 
 RE.setBlockquote = function() {
@@ -656,4 +643,24 @@ RE.imageTapped = function(src, alt) {
 
 window.onload = function() {
     RE.callback("ready");    
+    RE.addImageTapEventListener();
 };
+
+RE.addImageTapEventListener = function() {
+    images = document.getElementsByTagName("img");
+
+    for (var i = 0; i < images.length; i++) {
+        var image = images[i];
+        
+        // Check if the custom attribute "data-event-added" exists
+        if (!image.getAttribute("data-event-added")) {
+            image.addEventListener("touchend", function(event) {
+                event.preventDefault();
+                RE.imageTapped(event.target.src, event.target.alt);
+            });
+            
+            // Set the custom attribute to indicate the event listener is added
+            image.setAttribute("data-event-added", "true");
+        }
+    }
+}
