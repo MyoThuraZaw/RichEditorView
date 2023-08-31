@@ -23,14 +23,6 @@ RE.editor = document.getElementById('editor');
 document.addEventListener("selectionchange", function() {
     console.log("selectionchange");
 
-    var images = document.getElementsByTagName("img");
-    for (var i = 0; i < images.length; i++) {
-        images[i].addEventListener("touchend", function(event) {
-            event.preventDefault();
-            imageTapped(event.target.src, event.target.alt);
-        });
-    }
-    
     const isSelectionAnchorTag = RE.isSelectionAnchorTag();
     
     if (isSelectionAnchorTag) {
@@ -641,33 +633,19 @@ RE.isSelectionAnchorTag = function() {
     return false;
 }
 
-// RE.isSelectionImageTag = function() {
-//     if (window.getSelection().toString !== '') {
-//         var sel = window.getSelection();
-//         if (sel.rangeCount) {
-//             var range = sel.getRangeAt(0);
-//             if (range) {
-//                 const startParentNode = range.startContainer.parentNode;
-//                 const endParentNode = range.endContainer.parentNode; 
-//                 console.log(`startParentNode: ${startParentNode}`);
-//                 console.log(`tagName: ${startParentNode.tagName}`);
-//                 if (startParentNode.tagName === 'IMG' || endParentNode.tagName === 'IMG') {
-//                     const src = startParentNode.getAttribute('src');
-//                     const alt = startParentNode.getAttribute('alt');
-//                     const width = startParentNode.getAttribute('width');
-//                     return [true, src, alt, width];
-//                 }
-//             }
-//         }        
-//     }
-//     return false;
-// };
-
-window.onload = function() {
-    RE.callback("ready");
-};
-
-
-function imageTapped(src, alt) {
+RE.imageTapped = function(src, alt) {
     window.webkit.messageHandlers.imageTapped.postMessage({src: src, alt: alt});
 }
+
+window.onload = function() {
+
+    var images = document.getElementsByTagName("img");
+    for (var i = 0; i < images.length; i++) {
+        images[i].addEventListener("touchend", function(event) {
+            event.preventDefault();
+            RE.imageTapped(event.target.src, event.target.alt);
+        });
+    }
+
+    RE.callback("ready");
+};
