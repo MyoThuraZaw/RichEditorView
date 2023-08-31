@@ -23,17 +23,14 @@ RE.editor = document.getElementById('editor');
 document.addEventListener("selectionchange", function() {
     console.log("selectionchange");
 
-    const isSelectionImageTag = RE.isSelectionImageTag();
-
-    if (isSelectionImageTag) {
-        const [isImage, src, alt, width] = isSelectionImageTag;
-        if (isImage) {
-            console.log("selection is an image tag");
-            RE.callback(`action/insideImageTag{"src":${src}, "alt":${alt}, "width":${width}`);
-            return;
-        }  
+    var images = document.getElementsByTagName("img");
+    for (var i = 0; i < images.length; i++) {
+        images[i].addEventListener("touchend", function(event) {
+            event.preventDefault();
+            imageTapped(event.target.src, event.target.alt);
+        });
     }
-
+    
     const isSelectionAnchorTag = RE.isSelectionAnchorTag();
     
     if (isSelectionAnchorTag) {
@@ -666,54 +663,11 @@ RE.isSelectionAnchorTag = function() {
 //     return false;
 // };
 
-RE.isSelectionImageTag = function() {
-    const selection = window.getSelection();
-    
-    console.log('selection: ' + selection);
-    if (selection.toString() !== '') {
-        const range = selection.getRangeAt(0);
-        const nodes = range.cloneContents().querySelectorAll('*');
-        
-        for (const node of nodes) {
-            if (node.tagName === 'IMG') {
-                console.log('IMG tag found');
-                const src = node.getAttribute('src');
-                const alt = node.getAttribute('alt');
-                const width = node.getAttribute('width');
-                return [true, src, alt, width];
-            }
-        }
-    } else {
-        console.log("selection not found");
-    }
-    return false;
-};
-
-
-// Function to add a selection listener to images
-function addImageSelectionListener(img) {
-    img.addEventListener('click', function(event) {
-        if (img.classList.contains('selected-image')) {
-            img.classList.remove('selected-image');
-        } else {
-            img.classList.add('selected-image');
-        }
-        event.stopPropagation();
-    });
-}
-
-// Function to check if a given element is an image and selected
-function isElementSelectedImage(element) {
-    return element.tagName === 'IMG' && element.classList.contains('selected-image');
-}
-
-
 window.onload = function() {
-    // Add selection listeners to all images on the page
-    const images = document.querySelectorAll('img');
-    images.forEach(addImageSelectionListener);
-    const selectedImages = Array.from(images).filter(isElementSelectedImage);
-    console.log('Selected images:', selectedImages);
-
     RE.callback("ready");
 };
+
+
+function imageTapped(src, alt) {
+    window.webkit.messageHandlers.imageTapped.postMessage({src: src, alt: alt});
+}
